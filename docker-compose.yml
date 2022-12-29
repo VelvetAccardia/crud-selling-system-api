@@ -1,0 +1,34 @@
+version: "1.0"
+
+services:
+  postgres:
+    image: postgres:latest
+    healthcheck:
+      test: ["executable", "arg"]
+      interval: 10s
+      timeout: 1s
+      retries: 5
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres_db
+    volumes: 
+      - ./tmp/data/db:/var/lib/postgresql/data
+  
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - /tmp/data/db:/var/lib/mongo/data
+    networks:
+      - mongo-compose-network
+
+networks:
+    mongo-compose-network:
+      driver: bridge
