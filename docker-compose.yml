@@ -16,6 +16,8 @@ services:
 
   postgres:
     image: postgres:latest
+    env_file:
+    - .env
     healthcheck:
       test: ["executable", "arg"]
       interval: 10s
@@ -24,17 +26,19 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres_db
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     volumes: 
       - ./tmp:/data/pg
   
   mongo:
     image: mongo:latest
+    env_file:
+      - .env
     environment:
-      MONGO_INITDB_ROOT_USERNAME: mongo
-      MONGO_INITDB_ROOT_PASSWORD: mongo
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     ports:
       - "27017:27017"
     volumes:
