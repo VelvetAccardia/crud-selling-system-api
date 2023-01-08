@@ -1,0 +1,10 @@
+node_modules
+tmp
+coverage
+dist
+
+.git
+.vscode
+.yarn-error.log
+.env
+.env.test

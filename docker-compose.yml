@@ -1,6 +1,19 @@
 version: "1.0"
 
 services:
+  api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: velvetaccardia/crud-api
+    ports:
+      - "4000:4000"
+    volumes:
+      - /app
+    depends_on:
+      - postgres
+      - mongo
+
   postgres:
     image: postgres:latest
     healthcheck:
@@ -15,7 +28,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=postgres_db
     volumes: 
-      - ./tmp/data/db:/var/lib/postgresql/data
+      - ./tmp:/data/pg
   
   mongo:
     image: mongo:latest
@@ -25,7 +38,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - /tmp/data/db:/var/lib/mongo/data
+      - ./tmp:/data/mongo
     networks:
       - mongo-compose-network
 
